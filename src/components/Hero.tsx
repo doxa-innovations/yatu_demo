@@ -14,10 +14,11 @@ export default function Hero() {
     const floatRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        if (!rootRef.current) return;
+        const root = rootRef.current;
+        if (!root) return;
 
         const ctx = gsap.context(() => {
-            // Initial entrance timeline
+            // Intro animation
             const tl = gsap.timeline({
                 defaults: { ease: "power3.out", duration: 1 },
             });
@@ -31,7 +32,7 @@ export default function Hero() {
                     {
                         scale: 0,
                         opacity: 0,
-                        ease: "back.out(1.6)",
+                        ease: "back.out(1.5)",
                     },
                     "-=0.5"
                 )
@@ -44,43 +45,37 @@ export default function Hero() {
                     "-=0.6"
                 );
 
-            // Scroll-based subtle parallax & movement
-            if (!rootRef.current) return;
-
-            // Text moves slightly up as you scroll
+            // Subtle parallax on scroll
             gsap.to(textRef.current, {
-                yPercent: -10,
+                yPercent: -8,
                 scrollTrigger: {
-                    trigger: rootRef.current,
+                    trigger: root,
                     start: "top top",
                     end: "bottom+=150 top",
                     scrub: true,
                 },
             });
 
-            // Circle image gently drifts down
             gsap.to(circleRef.current, {
-                yPercent: 10,
+                yPercent: 8,
                 scrollTrigger: {
-                    trigger: rootRef.current,
+                    trigger: root,
                     start: "top top",
                     end: "bottom+=150 top",
                     scrub: true,
                 },
             });
 
-            // Floating badge drifts up and rotates slightly
             gsap.to(floatRef.current, {
-                yPercent: -25,
-                rotation: -5,
+                yPercent: -15,
                 scrollTrigger: {
-                    trigger: rootRef.current,
+                    trigger: root,
                     start: "top top",
                     end: "bottom+=200 top",
                     scrub: true,
                 },
             });
-        }, rootRef);
+        }, root);
 
         return () => {
             ctx.revert();
@@ -90,120 +85,96 @@ export default function Hero() {
     return (
         <section
             ref={rootRef}
-            className="relative w-full min-h-[90vh] flex items-center justify-center px-4 pb-16 pt-32"
+            className="relative w-full min-h-[90vh] flex items-center px-4 pt-28 pb-16"
         >
-            {/* Background image */}
+            {/* Background image, full bleed */}
             <div className="absolute inset-0 -z-20">
                 <Image
-                    src="/yatuhome1.jpg" // change to your actual hero image
-                    alt="Yatu Hotel Bishoftu lakeside view"
+                    src="/yatuhome1.jpg"
+                    alt="Yatu Hotel Bishoftu lounge area"
                     fill
                     priority
-                    className="object-cover brightness-[0.6]"
+                    className="object-cover brightness-[0.7]"
                 />
-                {/* soft blue overlay */}
-                <div className="absolute inset-0 bg-gradient-to-b from-blue-900/40 via-blue-900/20 to-white/0" />
+                {/* soft vignette + left darkening for text */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/55 via-black/25 to-black/10" />
             </div>
 
-            {/* Glass container */}
-            <div className="relative z-10 w-full max-w-6xl rounded-[32px] border border-white/60 bg-white/40 backdrop-blur-2xl shadow-xl shadow-black/15 px-6 py-8 md:px-10 md:py-12">
-                <div className="flex flex-col gap-10 md:flex-row md:items-center md:justify-between">
-                    {/* LEFT: Text */}
-                    <div ref={textRef} className="max-w-xl space-y-5">
-                        <p className="text-[11px] tracking-[0.35em] uppercase text-white font-body">
-                            Bishoftu · Ethiopia
-                        </p>
+            {/* Main content (no inner rectangle) */}
+            <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col gap-10 md:flex-row md:items-center md:justify-between">
+                {/* LEFT: Headline + single CTA */}
+                <div ref={textRef} className="max-w-xl space-y-5 text-left">
+                    <p className="text-[11px] tracking-[0.35em] uppercase text-white/80 font-body">
+                        Bishoftu · Ethiopia
+                    </p>
 
-                        <h1 className="font-fancy text-4xl md:text-5xl lg:text-6xl leading-tight text-white">
-                            Where Art Meets
-                            <span className="block text-blue-600">
-               Luxury
-              </span>
-                        </h1>
+                    <h1 className="font-fancy text-4xl md:text-5xl lg:text-6xl leading-tight text-white">
+                        Book Your
+                        <span className="block">Comfort Room Today.</span>
+                    </h1>
 
-                        <p className="font-body text-sm md:text-base text-white">
-                            Yatu Hotel blends Ethiopian craftsmanship, curated interiors, and
-                            serene lake views to give you a calm, luxurious escape just an
-                            hour from Addis.
-                        </p>
+                    <p className="font-body text-sm md:text-base text-white/85 max-w-md">
+                        A lakeside art retreat where handcrafted details, warm lighting, and
+                        calm water views meet understated luxury.
+                    </p>
 
-                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 pt-2">
-                            <a
-                                href="/booking"
-                                className="inline-flex items-center justify-center rounded-full bg-blue-600 px-7 py-2.5 text-[11px] font-body font-semibold uppercase tracking-[0.22em] text-white shadow-md shadow-blue-500/30 hover:bg-blue-500 transition-colors"
-                            >
-                                Book your stay
-                            </a>
+                    {/* Single, primary CTA only */}
+                    <div className="pt-2">
+                        <a
+                            href="/booking"
+                            className="inline-flex items-center justify-center rounded-full bg-blue-600 px-8 py-2.5 text-[11px] font-body font-semibold uppercase tracking-[0.22em] text-white shadow-md shadow-blue-500/30 hover:bg-blue-500 transition-colors"
+                        >
+                            Book your stay
+                        </a>
+                    </div>
+                </div>
 
-                            <button
-                                type="button"
-                                className="inline-flex items-center justify-center rounded-full border border-blue-200/80 bg-white/60 px-6 py-2.5 text-[11px] font-body font-semibold uppercase tracking-[0.22em] text-blue-700 hover:bg-blue-50/80 transition-colors"
-                            >
-                                Explore suites
-                            </button>
-                        </div>
-
-                        {/* Small descriptor line */}
-                        <div className="pt-3 flex flex-wrap gap-3 text-[11px] font-body text-neutral-500">
-              <span className="inline-flex items-center gap-2">
-                <span className="h-1 w-6 rounded-full bg-blue-500" />
-                Crafted interiors
-              </span>
-                            <span className="inline-flex items-center gap-2">
-                <span className="h-1 w-6 rounded-full bg-blue-300" />
-                Lakeside dining
-              </span>
-                            <span className="inline-flex items-center gap-2">
-                <span className="h-1 w-6 rounded-full bg-blue-200" />
-                Art & decor from local makers
-              </span>
-                        </div>
+                {/* RIGHT: Circle preview + labels */}
+                <div className="relative flex flex-col items-center md:items-end gap-4">
+                    {/* Tagline to the right of circle */}
+                    <div
+                        ref={floatRef}
+                        className="max-w-xs text-right text-[12px] font-body text-white/90"
+                    >
+                        Get ready for an artful escape. Reserve your spot now and step into
+                        a lakeside retreat crafted for slow mornings and long evenings.
                     </div>
 
-                    {/* RIGHT: Room circle preview + floating badge */}
-                    <div className="relative flex flex-col items-center justify-center md:items-end">
-                        {/* Soft floating badge */}
-                        <div
-                            ref={floatRef}
-                            className="absolute -top-6 left-4 md:-top-10 md:-left-8 rounded-2xl border border-white/70 bg-white/80 backdrop-blur-xl px-4 py-2 shadow-md shadow-black/10"
-                        >
-                            <p className="text-[10px] font-body uppercase tracking-[0.22em] text-neutral-500">
-                                Signature Lake Suite
-                            </p>
-                            <p className="mt-1 text-xs font-body text-neutral-900">
-                                Handcrafted decor & lakeview balcony.
-                            </p>
-                        </div>
+                    {/* Circle room preview */}
+                    <div
+                        ref={circleRef}
+                        className="relative h-56 w-56 md:h-72 md:w-72 rounded-full overflow-hidden border-[5px] border-white/90 shadow-2xl shadow-black/25 bg-neutral-200"
+                    >
+                        <Image
+                            src="/yatuhome.jpg"
+                            alt="Signature room at Yatu Hotel"
+                            fill
+                            className="object-cover"
+                        />
 
-                        {/* Circle room preview */}
-                        <div
-                            ref={circleRef}
-                            className="relative h-52 w-52 md:h-72 md:w-72 rounded-full overflow-hidden border-[6px] border-white shadow-2xl shadow-black/20 bg-neutral-200"
-                        >
-                            <Image
-                                src="/yatuhome.jpg" // update to your actual path
-                                alt="Signature room at Yatu Hotel"
-                                fill
-                                className="object-cover"
-                            />
+                        {/* inner vignette */}
+                        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/10" />
+                    </div>
 
-                            {/* inner soft vignette */}
-                            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/5" />
-
-                            {/* bottom label inside circle */}
-                            <div className="absolute inset-x-0 bottom-4 flex justify-center">
-                                <div className="rounded-full bg-black/55 px-4 py-1.5 backdrop-blur-md">
-                                    <p className="text-[10px] font-body uppercase tracking-[0.22em] text-white/80">
-                                        Lakefront · King Bed · Artisan details
-                                    </p>
-                                </div>
+                    {/* Orbiting labels (Enchanting / Unique / Rejuvenate) */}
+                    <div className="pointer-events-none absolute inset-0 flex items-center justify-center md:justify-end">
+                        <div className="relative h-64 w-64 md:h-80 md:w-80">
+                            {/* Enchanting */}
+                            <div className="absolute -top-1 right-3 flex items-center gap-2">
+                                <span className="text-[11px] font-body text-white">Enchanting</span>
+                                <span className="h-2.5 w-2.5 rounded-full bg-white" />
+                            </div>
+                            {/* Unique */}
+                            <div className="absolute top-1/2 right-0 flex -translate-y-1/2 items-center gap-2">
+                                <span className="text-[11px] font-body text-white">Unique</span>
+                                <span className="h-2.5 w-2.5 rounded-full bg-white" />
+                            </div>
+                            {/* Rejuvenate */}
+                            <div className="absolute bottom-3 right-6 flex items-center gap-2">
+                                <span className="text-[11px] font-body text-white">Rejuvenate</span>
+                                <span className="h-2.5 w-2.5 rounded-full bg-white" />
                             </div>
                         </div>
-
-                        {/* Helper label under circle */}
-                        <p className="mt-4 text-[11px] font-body text-neutral-600 text-center md:text-right">
-                            Scroll to discover experiences, dining, and art at Yatu Hotel.
-                        </p>
                     </div>
                 </div>
             </div>
