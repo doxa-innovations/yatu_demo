@@ -5,6 +5,7 @@ import RoomsSection from "@/components/RoomsSection";
 import FacilitiesSection from "@/components/FacilitiesSection";
 import CultureSection from "@/components/CultureSection";
 import Footer from "@/components/Footer";
+import LocationSection from "@/components/LocationSection";
 
 export default function HomePage() {
     return (
@@ -13,6 +14,7 @@ export default function HomePage() {
             <RoomsSection/>
             <FacilitiesSection/>
             <CultureSection/>
+            <LocationSection/>
             <Footer/>
         </div>
     );

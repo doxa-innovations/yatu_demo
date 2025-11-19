@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const MAP_EMBED_SRC =
     // 🔴 IMPORTANT: Replace this with your real Google Maps embed URL
-    "https://www.google.com/maps/place/Yatu+International+Hotel/@8.7619598,38.9418685,17z/data=!3m1!4b1!4m9!3m8!1s0x164b735b267d4763:0xe1cfb0446583a79!5m2!4m1!1i2!8m2!3d8.7619598!4d38.9418685!16s%2Fg%2F11j5ft2k_v?entry=ttu&g_ep=EgoyMDI1MTExMi4wIKXMDSoASAFQAw%3D%3D";
+   "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3943.256083328516!2d38.9418685!3d8.7619598!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b735b267d4763%3A0xe1cfb0446583a79!2sYatu%20International%20Hotel!5e0!3m2!1sen!2set!4v1763541254850!5m2!1sen!2set\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade";
 
 export default function LocationSection() {
     const sectionRef = useRef<HTMLDivElement | null>(null);
@@ -40,7 +40,7 @@ export default function LocationSection() {
     return (
         <section
             ref={sectionRef}
-            className="w-full px-4 py-20 md:py-24 bg-gradient-to-b from-blue-50/10 via-white to-white"
+            className="w-full px-4 py-20 md:py-24 bg-gradient-to-b from-blue-300 via-white to-white"
         >
             <div
                 ref={contentRef}
